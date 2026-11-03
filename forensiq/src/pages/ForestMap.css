@@ -1,0 +1,166 @@
+.forest-map-page {
+  width: 100%;
+  min-width: 0;
+  padding: 24px;
+  color: #183b2b;
+}
+
+.map-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.map-heading h2 {
+  font-size: 25px;
+  margin-bottom: 7px;
+}
+
+.map-heading p {
+  color: #718078;
+  font-size: 14px;
+}
+
+.map-status {
+  background: #e5f7eb;
+  color: #16834b;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #16a34a;
+  border-radius: 50%;
+  margin-right: 7px;
+}
+
+.map-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.map-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e5ebe7;
+}
+
+.map-stat-card svg {
+  color: #28734c;
+}
+
+.map-stat-card h3 {
+  font-size: 23px;
+  margin-bottom: 5px;
+}
+
+.map-stat-card p {
+  color: #718078;
+  font-size: 13px;
+}
+
+.map-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.map-toolbar-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 600;
+}
+
+.map-toolbar select {
+  padding: 10px 14px;
+  border: 1px solid #d5dfd8;
+  border-radius: 7px;
+  background: white;
+  cursor: pointer;
+}
+
+.map-wrapper {
+  width: 100%;
+  height: 480px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid #dce5df;
+}
+
+.leaflet-map {
+  width: 100%;
+  height: 100%;
+}
+
+.map-legend {
+  display: flex;
+  gap: 22px;
+  margin-top: 17px;
+  font-size: 13px;
+  color: #53645a;
+}
+
+.map-legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.map-legend i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.high-dot {
+  background: #dc2626;
+}
+
+.medium-dot {
+  background: #d97706;
+}
+
+.low-dot {
+  background: #16a34a;
+}
+
+.map-note {
+  font-size: 12px;
+  color: #718078;
+  margin-top: 15px;
+}
+
+.custom-map-marker {
+  background: transparent;
+  border: none;
+}
+
+@media (max-width: 700px) {
+  .map-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .map-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .map-legend {
+    flex-wrap: wrap;
+  }
+}
