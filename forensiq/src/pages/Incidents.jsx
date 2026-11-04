@@ -10,7 +10,9 @@ import {
   AlertTriangle,
   MapPin,
   CalendarDays,
-  X
+  X,
+  BrainCircuit,
+  Loader2
 } from "lucide-react";
 
 function Incidents() {
@@ -18,8 +20,13 @@ function Incidents() {
   const [risk, setRisk] = useState("All");
   const [selected, setSelected] = useState(null);
 
+  const [analysis, setAnalysis] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const formattedIncidents = incidents.map((item) => ({
     ...item,
+    areaValue: Number(item.area),
     area: `${item.area} hectares`,
     description:
       item.description ||
@@ -47,6 +54,45 @@ function Incidents() {
       item.status === "Under Investigation" ||
       item.status === "Under Review"
   ).length;
+
+  const analyseIncident = async () => {
+    setLoading(true);
+    setAnalysis(null);
+    setError("");
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/analyse", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          area: selected.areaValue,
+          risk: selected.risk
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("Python analysis failed.");
+      }
+
+      const result = await response.json();
+      setAnalysis(result);
+
+    } catch (err) {
+      setError(
+        "Unable to connect to Python. Make sure the Flask server is running."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openDetails = (item) => {
+    setSelected(item);
+    setAnalysis(null);
+    setError("");
+  };
 
   return (
     <div className="module-page">
@@ -157,7 +203,7 @@ function Incidents() {
                   <td>
                     <button
                       className="icon-action"
-                      onClick={() => setSelected(item)}
+                      onClick={() => openDetails(item)}
                     >
                       <Eye size={18} />
                     </button>
@@ -246,9 +292,118 @@ function Incidents() {
               <p>{selected.description}</p>
             </div>
 
-            <p className="demo-disclaimer">
-              Demonstration record. This is not verified evidence
-              of illegal activity.
+            <div style={{
+              marginTop: "22px",
+              padding: "20px",
+              background: "#f0f7f2",
+              borderRadius: "10px",
+              boxSizing: "border-box",
+              width: "100%"
+            }}>
+
+              <h3 style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "9px",
+                marginBottom: "12px"
+              }}>
+                <BrainCircuit size={21} />
+                Python Risk Analysis
+              </h3>
+
+              <p style={{
+                fontSize: "13px",
+                color: "#64748b",
+                lineHeight: "1.6"
+              }}>
+                Analyse this incident using the Python risk assessment system.
+              </p>
+
+              <button
+                onClick={analyseIncident}
+                disabled={loading}
+                style={{
+                  marginTop: "14px",
+                  padding: "11px 17px",
+                  background: "#1b6742",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "7px",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px"
+                }}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 size={17} />
+                    Analysing...
+                  </>
+                ) : (
+                  <>
+                    <BrainCircuit size={17} />
+                    Analyse Incident
+                  </>
+                )}
+              </button>
+
+              {error && (
+                <p style={{
+                  color: "#dc2626",
+                  marginTop: "15px",
+                  fontSize: "13px",
+                  lineHeight: "1.6"
+                }}>
+                  {error}
+                </p>
+              )}
+
+              {analysis && (
+                <div style={{
+                  marginTop: "20px",
+                  padding: "18px",
+                  background: "white",
+                  borderRadius: "8px",
+                  border: "1px solid #dce8df",
+                  boxSizing: "border-box",
+                  width: "100%",
+                  lineHeight: "1.7",
+                  overflowWrap: "break-word"
+                }}>
+
+                  <h3 style={{ marginBottom: "12px" }}>
+                    Analysis Results
+                  </h3>
+
+                  <p>
+                    Risk Score: <strong>{analysis.risk_score}/100</strong>
+                  </p>
+
+                  <p>
+                    Risk Category: <strong>{analysis.risk_category}</strong>
+                  </p>
+
+                  <p style={{
+                    marginTop: "10px",
+                    lineHeight: "1.7"
+                  }}>
+                    {analysis.message}
+                  </p>
+
+                </div>
+              )}
+
+            </div>
+
+            <p className="demo-disclaimer" style={{
+              marginTop: "22px",
+              marginBottom: "8px",
+              lineHeight: "1.6",
+              clear: "both"
+            }}>
+              Demonstration record. Python risk scores are illustrative
+              prioritisation outputs, not proof of illegal activity.
             </p>
 
           </div>

@@ -1,257 +1,233 @@
-# Hackathon
-Here is a complete `README.md` for your GitHub repository. It highlights the features, includes the rule-based AI Assistant, and clearly explains that the project uses demonstration data.
+# FORENSIQ – Forest Crime Investigation & Evidence Intelligence Platform
 
-Create a file named `README.md` in your main `forensiq` project folder and paste this:
+FORENSIQ is a web-based forest investigation support platform designed to help organise potential forest disturbances, review incident information, verify clearance records, and prioritise cases for investigation.
 
-# FORENSIQ
-
-### AI-Powered Forest Crime Investigation & Evidence Intelligence Platform
-
-FORENSIQ is a frontend-based investigation support platform designed to help organise, analyse, and review potential forest disturbance incidents.
-
-The platform brings together forest incident records, geographical visualisation, clearance information, investigation reports, and an AI-assisted investigation interface in one unified dashboard.
-
-**FORENSIQ is developed as a hackathon prototype using demonstration data.**
-
----
-
-## Project Overview
-
-Forest monitoring and investigation involve multiple types of information, including geographical locations, disturbance records, authorised clearances, and investigation documentation.
-
-FORENSIQ aims to organise this information into a single interface to support the investigation workflow.
-
-The platform helps users review potential forest disturbances, understand incident priorities, examine available records, and generate investigation reports.
+The platform brings multiple investigation-support features together in one dashboard, helping users examine forest-related incidents through structured information and illustrative risk analysis.
 
 ## Key Features
 
 ### 1. Dashboard
 
-* Overview of registered forest incidents.
-* High-risk incident statistics.
-* Clearance verification statistics.
-* Visual representation of incident trends.
-* Recent incident records.
+* Overview of recorded forest incidents.
+* Summary of high-, medium-, and low-risk cases.
+* Visual representation of incident information.
+* Quick access to different investigation modules.
 
 ### 2. Forest Map
 
-* Interactive geographical map.
-* Visualisation of incident locations.
-* Markers for different forest disturbance records.
-* Incident details through map popups.
-* Risk-based incident identification.
+* Interactive map displaying incident locations.
+* Geographic visualisation of recorded forest incidents.
+* Location-based overview using Leaflet and OpenStreetMap.
 
 ### 3. Incident Management
 
-* Centralised incident listing.
-* Search incidents by ID or location.
+* View recorded forest incidents.
+* Search incidents by location or incident ID.
 * Filter incidents according to risk level.
 * View detailed incident information.
-* Review investigation status.
+* Analyse incident priority using the Python backend.
 
-### 4. Clearance Verification
+### 4. Python-Based Risk Analysis
 
-* Display available forest clearance records.
-* View authorised area information.
-* Check clearance validity status.
-* Filter clearance records.
-* Compare available incident and clearance information.
+* Flask backend processes incident information received from the frontend.
+* Uses incident area and supplied risk level to calculate an illustrative priority score.
+* Returns a risk score, priority category, and explanatory message.
+* Helps demonstrate how investigation cases can be prioritised systematically.
 
-### 5. Investigation Reports
+**Note:** The score is an illustrative investigation-priority score. It is not a machine-learning prediction, crime probability, or confirmation of illegal activity.
 
-* Generate reports from incident records.
-* Search and filter investigation reports.
-* Preview detailed report information.
-* Download investigation reports.
-* Display investigation status and risk priority.
+### 5. Clearance Verification
 
-### 6. AI Investigation Assistant
+* View recorded clearance information.
+* Check clearance status and validity dates.
+* Compare incident information with available sample clearance records.
 
-FORENSIQ includes an interactive investigation assistant interface.
+### 6. Investigation Reports
 
-The assistant helps users:
+* View structured investigation information.
+* Organise incident details for review.
+* Export report information as a text file.
 
-* Retrieve incident information.
-* Review high-, medium-, and low-risk incidents.
-* Understand investigation records.
-* Check available clearance information.
-* Summarise incident information.
-* Identify suggested investigation steps.
+### 7. Investigation Assistant
 
-**Implementation note:** The current prototype uses a rule-based assistant connected to the project's demonstration dataset. It does not use a live generative AI model or an external AI API.
+* Interactive assistant interface for investigation-related queries.
+* Provides predefined, rule-based responses.
+* Helps users navigate and understand the available investigation information.
 
----
+The current assistant is a prototype implementation and does not use a live generative AI API.
 
 ## Technology Stack
 
-| Technology      | Purpose                                      |
-| --------------- | -------------------------------------------- |
-| React.js        | Frontend development                         |
-| Vite            | Development environment and build tool       |
-| JavaScript      | Application logic                            |
-| CSS3            | Styling and responsive layouts               |
-| React Router    | Page navigation                              |
-| Lucide React    | Icons                                        |
-| Recharts        | Dashboard visualisations                     |
-| Leaflet         | Interactive geographical maps                |
-| OpenStreetMap   | Map tiles                                    |
-| JavaScript Data | Demonstration incident and clearance records |
+### Frontend
 
----
+* React.js
+* Vite
+* JavaScript
+* HTML5
+* CSS3
+* React Router
+* Recharts
+* Leaflet
+* React Leaflet
+* Lucide React
+
+### Backend
+
+* Python
+* Flask
+* Flask-CORS
+
+### Map Integration
+
+* Leaflet
+* OpenStreetMap
 
 ## Project Structure
 
 ```text
 forensiq/
 │
+├── backend/
+│   └── app.py
+│
 ├── public/
 │
 ├── src/
 │   ├── components/
 │   │   ├── Sidebar.jsx
-│   │   ├── Sidebar.css
 │   │   ├── Header.jsx
-│   │   └── Header.css
+│   │   └── ...
 │   │
 │   ├── pages/
 │   │   ├── Dashboard.jsx
-│   │   ├── Dashboard.css
 │   │   ├── ForestMap.jsx
-│   │   ├── ForestMap.css
 │   │   ├── Incidents.jsx
 │   │   ├── Clearance.jsx
 │   │   ├── Reports.jsx
-│   │   ├── Reports.css
 │   │   ├── Assistant.jsx
-│   │   ├── Assistant.css
-│   │   └── ModulePages.css
+│   │   └── ...
 │   │
 │   ├── data/
 │   │   └── forestData.js
 │   │
 │   ├── App.jsx
 │   ├── App.css
-│   ├── index.css
-│   └── main.jsx
+│   ├── main.jsx
+│   └── index.css
 │
 ├── index.html
 ├── package.json
 └── README.md
 ```
 
----
-
 ## Installation and Setup
 
 ### Prerequisites
 
-* Node.js
-* npm
-* Git
+* Node.js and npm
+* Python 3
+* Visual Studio Code (recommended)
 
-### Step 1: Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone YOUR_GITHUB_REPOSITORY_LINK
 ```
 
-### Step 2: Navigate to the project folder
+### 2. Open the Project
 
 ```bash
 cd forensiq
 ```
 
-### Step 3: Install dependencies
+### 3. Install Frontend Dependencies
 
 ```bash
 npm install
 ```
 
-### Step 4: Start the development server
+If required, install the project libraries:
+
+```bash
+npm install lucide-react recharts react-router-dom leaflet react-leaflet
+```
+
+### 4. Install Backend Dependencies
+
+Open a terminal in the project folder:
+
+```bash
+py -m pip install flask flask-cors
+```
+
+### 5. Start the Python Backend
+
+Open a terminal:
+
+```bash
+cd backend
+py app.py
+```
+
+The Flask backend runs at:
+
+```text
+http://127.0.0.1:5000
+```
+
+### 6. Start the React Frontend
+
+Open a second terminal in the main project folder:
 
 ```bash
 npm run dev
 ```
 
-### Step 5: Open the application
+Open the local development URL displayed in the terminal.
 
-Open the local URL displayed in your terminal, usually:
-
-```text
-http://localhost:5173/
-```
-
----
-
-## Demonstration Data
-
-The current prototype uses predefined demonstration records stored in:
-
-`src/data/forestData.js`
-
-These records represent sample forest disturbance incidents and clearance information.
-
-They are used to demonstrate:
-
-* Dashboard statistics.
-* Incident management.
-* Geographical visualisation.
-* Clearance record management.
-* Investigation report generation.
-* Rule-based assistant responses.
-
-The sample records are illustrative and must not be interpreted as actual satellite detections, verified government clearance records, or confirmed forest crimes.
-
----
+**Important:** Keep both the Python backend and React frontend running to use the Python risk-analysis feature.
 
 ## Current Prototype Scope
 
-FORENSIQ demonstrates a frontend investigation-support workflow.
+The current version demonstrates the proposed workflow through a functional frontend and a basic Python backend.
 
-The current version does not include:
+The prototype includes:
 
-* Live satellite imagery processing.
-* Actual forest disturbance detection from satellite images.
-* Automated geographical clearance-boundary verification.
-* A connected government database.
-* Persistent centralised incident storage.
-* A generative AI model or live AI API integration.
+* Interactive investigation dashboard.
+* Forest incident visualisation.
+* Incident search and filtering.
+* Interactive map.
+* Clearance information interface.
+* Investigation report interface.
+* Rule-based investigation assistant.
+* Python-based incident priority analysis.
 
-These are potential areas for future development.
+### Demo Data and Limitations
 
----
+* The incident and clearance records are illustrative sample data stored in `src/data/forestData.js`.
+* The map displays sample incident coordinates.
+* The prototype does not currently perform live satellite imagery processing or actual forest disturbance detection.
+* Clearance verification currently uses sample records rather than official government databases or actual geographic boundary intersection.
+* The Python backend uses rule-based scoring rather than a trained machine-learning model.
+* The assistant uses predefined responses rather than a live AI model.
+* The project does not currently use a database.
+* Investigation reports are exported as text files; PDF generation is not currently implemented.
+
+The prototype is intended to demonstrate the platform's proposed investigation-support workflow. Sample records and risk scores should not be treated as verified evidence of forest crime.
 
 ## Future Scope
 
-Potential future enhancements include:
+* Integration of satellite imagery for forest disturbance detection.
+* Automated identification of potential forest changes.
+* Geospatial analysis of incident locations and patterns.
+* Integration with authorised forest clearance databases.
+* Advanced incident correlation and investigation prioritisation.
+* AI-powered investigation assistance grounded in verified records.
+* Database integration for storing incident and clearance information.
+* PDF-based investigation report generation.
 
-1. Integration with Sentinel-2 satellite imagery.
-2. NDVI-based forest disturbance analysis.
-3. Geospatial correlation of nearby incidents.
-4. Automated comparison with authorised clearance boundaries.
-5. Evidence-based incident prioritisation.
-6. Integration of a generative AI investigation assistant.
-7. Database integration for persistent investigation records.
-8. PDF-based investigation report generation.
+## Project Objective
 
----
+FORENSIQ aims to provide an integrated digital platform that supports forest crime investigation by organising incident information, visualising locations, reviewing clearance records, and assisting investigation prioritisation.
 
-## Important Disclaimer
-
-FORENSIQ is a hackathon demonstration prototype developed to showcase a possible digital workflow for forest investigation support.
-
-All incident and clearance records currently use sample data.
-
-Risk classifications indicate investigation priority only and do not establish illegal activity or prove criminal involvement.
-
-Any real-world investigation would require verified satellite evidence, official records, and authorised human assessment.
-
----
-
-## Project Goal
-
-To demonstrate how an integrated digital platform can organise forest disturbance information and support a more structured, accessible, and evidence-oriented investigation workflow.
-
-**FORENSIQ — Turning Forest Disturbance Records into Organised Investigation Leads.**
-
-**One final GitHub tip:** Replace `YOUR_GITHUB_REPOSITORY_URL` with your actual repository URL after creating the repository. Also, keep `node_modules` and `.env` out of GitHub.
+**FORENSIQ – Turning Forest Data into Investigation Insights.**
