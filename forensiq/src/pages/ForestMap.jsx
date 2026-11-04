@@ -1,58 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
+
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
   Circle,
-} from 'react-leaflet'
+} from "react-leaflet";
 
-import L from 'leaflet'
+import L from "leaflet";
 
 import {
   Layers,
   MapPin,
   AlertTriangle,
   Trees,
-} from 'lucide-react'
+} from "lucide-react";
 
-import 'leaflet/dist/leaflet.css'
-import './ForestMap.css'
+import { incidents } from "../data/forestData";
 
-const incidents = [
-  {
-    id: 'FR-1024',
-    name: 'North Forest',
-    position: [30.3165, 78.0322],
-    risk: 'High',
-    area: '4.2 hectares',
-  },
-  {
-    id: 'FR-1025',
-    name: 'Eastern Range',
-    position: [30.3250, 78.0450],
-    risk: 'Medium',
-    area: '2.1 hectares',
-  },
-  {
-    id: 'FR-1026',
-    name: 'Western Range',
-    position: [30.2900, 78.0100],
-    risk: 'Low',
-    area: '1.5 hectares',
-  },
-]
+import "leaflet/dist/leaflet.css";
+import "./ForestMap.css";
 
 const createIcon = (risk) => {
   const color =
-    risk === 'High'
-      ? '#dc2626'
-      : risk === 'Medium'
-      ? '#d97706'
-      : '#16a34a'
+    risk === "High"
+      ? "#dc2626"
+      : risk === "Medium"
+      ? "#d97706"
+      : "#16a34a";
 
   return L.divIcon({
-    className: 'custom-map-marker',
+    className: "custom-map-marker",
     html: `<div style="
       width: 18px;
       height: 18px;
@@ -63,18 +42,28 @@ const createIcon = (risk) => {
     "></div>`,
     iconSize: [18, 18],
     iconAnchor: [9, 9],
-  })
-}
+  });
+};
 
 function ForestMap() {
-  const [selectedRisk, setSelectedRisk] = useState('All')
+  const [selectedRisk, setSelectedRisk] = useState("All");
+
+  const mappedIncidents = incidents.filter(
+    (incident) =>
+      typeof incident.latitude === "number" &&
+      typeof incident.longitude === "number"
+  );
 
   const filteredIncidents =
-    selectedRisk === 'All'
-      ? incidents
-      : incidents.filter(
+    selectedRisk === "All"
+      ? mappedIncidents
+      : mappedIncidents.filter(
           (incident) => incident.risk === selectedRisk
-        )
+        );
+
+  const highRiskCount = incidents.filter(
+    (incident) => incident.risk === "High"
+  ).length;
 
   return (
     <div className="forest-map-page">
@@ -106,7 +95,7 @@ function ForestMap() {
         <div className="map-stat-card">
           <MapPin size={25} />
           <div>
-            <h3>148</h3>
+            <h3>{incidents.length}</h3>
             <p>Detected Incidents</p>
           </div>
         </div>
@@ -114,7 +103,7 @@ function ForestMap() {
         <div className="map-stat-card">
           <AlertTriangle size={25} />
           <div>
-            <h3>18</h3>
+            <h3>{highRiskCount}</h3>
             <p>High Risk Areas</p>
           </div>
         </div>
@@ -144,7 +133,7 @@ function ForestMap() {
 
         <MapContainer
           center={[30.3165, 78.0322]}
-          zoom={13}
+          zoom={11}
           scrollWheelZoom={true}
           className="leaflet-map"
         >
@@ -154,39 +143,48 @@ function ForestMap() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {filteredIncidents.map((incident) => (
+          {filteredIncidents.map((incident) => {
 
-            <React.Fragment key={incident.id}>
+            const position = [
+              incident.latitude,
+              incident.longitude
+            ];
 
-              <Marker
-                position={incident.position}
-                icon={createIcon(incident.risk)}
-              >
-                <Popup>
-                  <strong>{incident.name}</strong>
-                  <p>Incident ID: {incident.id}</p>
-                  <p>Risk Level: {incident.risk}</p>
-                  <p>Area: {incident.area}</p>
-                </Popup>
-              </Marker>
+            const color =
+              incident.risk === "High"
+                ? "#dc2626"
+                : incident.risk === "Medium"
+                ? "#d97706"
+                : "#16a34a";
 
-              <Circle
-                center={incident.position}
-                radius={250}
-                pathOptions={{
-                  color:
-                    incident.risk === 'High'
-                      ? '#dc2626'
-                      : incident.risk === 'Medium'
-                      ? '#d97706'
-                      : '#16a34a',
-                  fillOpacity: 0.15,
-                }}
-              />
+            return (
+              <React.Fragment key={incident.id}>
 
-            </React.Fragment>
+                <Marker
+                  position={position}
+                  icon={createIcon(incident.risk)}
+                >
+                  <Popup>
+                    <strong>{incident.location}</strong>
+                    <p>Incident ID: {incident.id}</p>
+                    <p>Risk Level: {incident.risk}</p>
+                    <p>Area: {incident.area} hectares</p>
+                    <p>Status: {incident.status}</p>
+                  </Popup>
+                </Marker>
 
-          ))}
+                <Circle
+                  center={position}
+                  radius={250}
+                  pathOptions={{
+                    color,
+                    fillOpacity: 0.15,
+                  }}
+                />
+
+              </React.Fragment>
+            );
+          })}
 
         </MapContainer>
 
@@ -203,7 +201,7 @@ function ForestMap() {
       </p>
 
     </div>
-  )
+  );
 }
 
-export default ForestMap
+export default ForestMap;

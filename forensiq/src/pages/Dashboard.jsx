@@ -23,6 +23,8 @@ import {
 
 import { Link } from "react-router-dom";
 
+import { incidents, clearances } from "../data/forestData";
+
 const stats = [
   {
     title: "Monitored Regions",
@@ -33,21 +35,21 @@ const stats = [
   },
   {
     title: "Detected Incidents",
-    value: "148",
+    value: incidents.length,
     description: "Recorded forest disturbances",
     icon: AlertTriangle,
     color: "red"
   },
   {
     title: "High Risk Areas",
-    value: "18",
+    value: incidents.filter((item) => item.risk === "High").length,
     description: "Require investigation",
     icon: MapPin,
     color: "orange"
   },
   {
     title: "Verified Clearances",
-    value: "36",
+    value: clearances.filter((item) => item.status === "Verified").length,
     description: "Permission records matched",
     icon: FileCheck,
     color: "blue"
@@ -60,45 +62,19 @@ const chartData = [
   { month: "Aug", incidents: 14 },
   { month: "Sep", incidents: 25 },
   { month: "Oct", incidents: 20 },
-  { month: "Nov", incidents: 33 }
-];
-
-const incidents = [
-  {
-    id: "FR-1024",
-    location: "Zone A - North Forest",
-    area: "4.2 hectares",
-    date: "03 Nov 2026",
-    risk: "High"
-  },
-  {
-    id: "FR-1025",
-    location: "Zone B - Eastern Range",
-    area: "2.1 hectares",
-    date: "02 Nov 2026",
-    risk: "Medium"
-  },
-  {
-    id: "FR-1026",
-    location: "Zone C - Western Range",
-    area: "1.5 hectares",
-    date: "01 Nov 2026",
-    risk: "Low"
-  },
-  {
-    id: "FR-1027",
-    location: "Zone D - Southern Forest",
-    area: "3.8 hectares",
-    date: "31 Oct 2026",
-    risk: "High"
-  }
+  { month: "Nov", incidents: incidents.length }
 ];
 
 function Dashboard() {
+  const highRiskCount = incidents.filter(
+    (item) => item.risk === "High"
+  ).length;
+
+  const recentIncidents = [...incidents].slice(-4).reverse();
+
   return (
     <div className="dashboard-page">
 
-      {/* Page Heading */}
       <div className="dashboard-heading">
         <div>
           <h1>Dashboard Overview</h1>
@@ -110,7 +86,6 @@ function Dashboard() {
         <span className="demo-badge">DEMO DATA</span>
       </div>
 
-      {/* Statistics Cards */}
       <div className="stats-grid">
 
         {stats.map((stat) => {
@@ -135,10 +110,8 @@ function Dashboard() {
 
       </div>
 
-      {/* Chart and Priority Section */}
       <div className="dashboard-middle">
 
-        {/* Chart */}
         <div className="chart-card">
 
           <div className="section-heading">
@@ -207,7 +180,6 @@ function Dashboard() {
 
         </div>
 
-        {/* Investigation Priority */}
         <div className="priority-card">
 
           <div className="priority-header">
@@ -219,7 +191,7 @@ function Dashboard() {
           </div>
 
           <div className="priority-number">
-            18
+            {highRiskCount}
           </div>
 
           <p className="priority-description">
@@ -244,7 +216,6 @@ function Dashboard() {
 
       </div>
 
-      {/* Recent Incidents */}
       <div className="recent-incidents-card">
 
         <div className="recent-heading">
@@ -277,7 +248,7 @@ function Dashboard() {
 
             <tbody>
 
-              {incidents.map((incident) => (
+              {recentIncidents.map((incident) => (
 
                 <tr key={incident.id}>
 
@@ -287,7 +258,7 @@ function Dashboard() {
 
                   <td>{incident.location}</td>
 
-                  <td>{incident.area}</td>
+                  <td>{incident.area} hectares</td>
 
                   <td>{incident.date}</td>
 
